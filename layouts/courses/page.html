@@ -40,6 +40,13 @@
             {{ end }}
           </div>
         </article>
+        <section class="postShorten-group main-content-wrap">
+          {{ $paginator := .Paginate (where .Data.Pages "Type" "courses") }}
+          {{ range $paginator.Pages }}
+            {{ .Render "summary" }}
+          {{ end }}
+          {{ partial "pagination.html" . }}
+        </section>
         {{ partial "footer.html" . }}
       </div>
       <div id="bottom-bar" class="post-bottom-bar" data-behavior="{{ .Scratch.Get "sidebarBehavior" }}">
