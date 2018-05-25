@@ -1,0 +1,13 @@
+{{ $ancestors := first .level (split .course.path " ") }}
+{{ if eq ($ancestors | len) ((intersect $ancestors (split .parent " ")) | len) }}
+  <ul style="margin-bottom:0;">
+    <div>
+      <a href="#posts-list-{{ .course.name | urlize }}" class="category-anchor" data-category="{{ .course.name }}" data-parent-categories="{{ delimit $ancestors "," }}"> / {{ .course.name }}</a>
+    </div>
+  {{ $index := (add .level 1) }}
+  {{ $path := (printf "%s" .course.path) }}
+  {{ range .scratch.GetSortedMapValues (printf "course-level-%d" $index) }}
+    {{ partial "internal/recursive-courses-1.html" (dict "scratch" $.scratch "course" . "level" $index "parent" $path) }}
+  {{ end }}
+  </ul>
+{{ end }}
